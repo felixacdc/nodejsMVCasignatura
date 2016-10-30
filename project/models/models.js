@@ -35,10 +35,19 @@ Quiz.sync().then(function() {
                 pregunta: 'Capital de Italia',
                 respuesta: 'Roma'
             }).then(function() {
-                console.log("Base de datos inicializada");
+                console.log("Base de datos inicializada (pregunta 1)");
             }).catch(function(err){
                 console.log(`Error: ${err}`);
-            });         
+            });
+            
+            Quiz.create({
+                pregunta: 'Capital de Portugal',
+                respuesta: 'Lisboa'
+            }).then(function() {
+                console.log("Base de datos inicializada (pregunta 2)");
+            }).catch(function(err){
+                console.log(`Error: ${err}`);
+            }); 
         }
         
     }).catch(function(err){

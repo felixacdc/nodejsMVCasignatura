@@ -1,22 +1,31 @@
 const models = require('../models/models.js');
 
-// GET /quizes/question
-exports.question = function (req, res) {
-    models.Quiz.findAll().then(function(quiz) {
-        res.render('quizes/question', {pregunta: quiz[0].pregunta});
-    }).catch(function(err){
+//GET /quizes
+exports.index = function (req, res) {
+    models.Quiz.findAll().then((quizes) => {
+        res.render('quizes/index.ejs', { quizes });
+    }).catch(() => {
         console.log(`Error: ${err}`);
     });
 };
 
-// GET /quizes/answer
+// GET /quizes/id
+exports.show = function (req, res) {
+    models.Quiz.findById(req.params.quizId).then((quiz) => {
+        res.render('quizes/show', { quiz });
+    }).catch((err) => {
+        console.log(`Error: ${err}`);
+    });
+};
+
+// GET /quizes/id/answer
 exports.answer = function (req, res) {
-    models.Quiz.findAll().then(function(quiz) {
-        if(req.query.respuesta == quiz[0].respuesta)
-            res.render('quizes/answer', {respuesta: 'Correcto'});
+    models.Quiz.findById(req.params.quizId).then((quiz) => {
+        if(req.query.respuesta == quiz.respuesta)
+            res.render('quizes/answer', { quiz, respuesta: 'Correcto'});
         else
-            res.render('quizes/answer', {respuesta: 'Incorrecto'});
-    }).catch(function(err){
+            res.render('quizes/answer', { quiz, respuesta: 'Incorrecto'});
+    }).catch((err) => {
         console.log(`Error: ${err}`);
     });
 };
