@@ -3,12 +3,23 @@ const path = require('path');
 // Cargar Modelo ORM
 const Sequelize = require('sequelize');
 
+// Obtener variables de entrono
+/*const hostDB = process.env.DATABASE_HOST,
+      db = process.env.DATABASE_STORAGE,
+      serverDB = process.env.DATABASE_SERVER,
+      userDB = process.env.DATABASE_USER,
+      passwordDB = process.env.DATABASE_PASSWORD;*/
+
 // Usar DDBB MySQL
+/*var sequelize = new Sequelize(db, userDB, passwordDB, {
+  host: hostDB,
+  dialect: serverDB
+});*/
+
 var sequelize = new Sequelize('MVCExpress', 'homestead', 'secret', {
   host: '192.168.10.10',
   dialect: 'mysql'
 });
-/*var sequelize = new Sequelize('mysql://homestead:secret:33060/MVCExpress');*/
 
 // Importa la definicion de la tabla Quiz en quiz.js
 const Quiz = sequelize.import(path.join(__dirname, 'quiz'));
