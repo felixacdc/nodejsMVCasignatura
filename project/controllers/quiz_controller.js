@@ -1,5 +1,19 @@
 const models = require('../models/models.js');
 
+// Autoload - factoriza el codigo si ruta incluye :quizId
+exports.load = function(req, res, next, quizId) {
+    models.Quiz.findById(quizId).then((quiz) => {
+        if(quiz) {
+            req.quiz = quiz;
+            next();
+        } else {
+            next(new Error('No existe quizId=' + quizId));
+        }
+    }).catch((err) => {
+        next(err);
+    });
+};
+
 //GET /quizes
 exports.index = function (req, res) {
     models.Quiz.findAll().then((quizes) => {
@@ -11,21 +25,14 @@ exports.index = function (req, res) {
 
 // GET /quizes/id
 exports.show = function (req, res) {
-    models.Quiz.findById(req.params.quizId).then((quiz) => {
-        res.render('quizes/show', { quiz });
-    }).catch((err) => {
-        console.log(`Error: ${err}`);
-    });
+    res.render('quizes/show', { quiz: req.quiz });
 };
 
 // GET /quizes/id/answer
 exports.answer = function (req, res) {
-    models.Quiz.findById(req.params.quizId).then((quiz) => {
-        if(req.query.respuesta == quiz.respuesta)
-            res.render('quizes/answer', { quiz, respuesta: 'Correcto'});
-        else
-            res.render('quizes/answer', { quiz, respuesta: 'Incorrecto'});
-    }).catch((err) => {
-        console.log(`Error: ${err}`);
-    });
+    var respuesta = 'Incorrecto';
+    if(req.query.respuesta == req.quiz.respuesta)
+        respuesta = 'Correcto';
+    
+    res.render('quizes/answer', { quiz: req.quiz, respuesta});
 };
