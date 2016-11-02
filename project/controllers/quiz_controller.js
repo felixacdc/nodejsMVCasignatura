@@ -51,9 +51,17 @@ exports.create = function (req, res) {
     var quiz = models.Quiz.build( req.body.quiz );
     
     // guarda en DB los campos pregunta y respuesta de quiz
-    quiz.save({ fields: ["pregunta", "respuesta"]}).then(() => {
-        res.redirect("/quizes");
-    }).catch((err) => {
-       console.log(`Error: ${err}`);
+    quiz
+    .validate()
+    .then(function(err){
+       if(err) {
+           res.render('quizes/new', {quiz, errors: err.errors});
+       } else {
+           quiz.save({ fields: ["pregunta", "respuesta"]}).then(() => {
+                res.redirect("/quizes");
+            }).catch((err) => {
+               console.log(`Error: ${err}`);
+            });
+       }
     });
 };
