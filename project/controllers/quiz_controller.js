@@ -17,7 +17,7 @@ exports.load = function(req, res, next, quizId) {
 //GET /quizes
 exports.index = function (req, res) {
     models.Quiz.findAll().then((quizes) => {
-        res.render('quizes/index.ejs', { quizes });
+        res.render('quizes/index.ejs', { quizes, errors: [] });
     }).catch(() => {
         console.log(`Error: ${err}`);
     });
@@ -25,7 +25,7 @@ exports.index = function (req, res) {
 
 // GET /quizes/id
 exports.show = function (req, res) {
-    res.render('quizes/show', { quiz: req.quiz });
+    res.render('quizes/show', { quiz: req.quiz, errors: [] });
 };
 
 // GET /quizes/id/answer
@@ -34,7 +34,7 @@ exports.answer = function (req, res) {
     if(req.query.respuesta == req.quiz.respuesta)
         respuesta = 'Correcto';
     
-    res.render('quizes/answer', { quiz: req.quiz, respuesta });
+    res.render('quizes/answer', { quiz: req.quiz, respuesta, errors: [] });
 };
 
 // GET /quizes/new
@@ -43,7 +43,7 @@ exports.new = function (req, res) {
         { pregunta: "Pregunta", respuesta: "Respuesta"}
     );
     
-    res.render("quizes/new", {quiz: quiz});
+    res.render("quizes/new", {quiz: quiz, errors: []});
 };
 
 // POST /quizes/create
