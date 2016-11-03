@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "nodemon ./bin/www"
+    "start": "node ./bin/www"
   },
   "dependencies": {
     "body-parser": "~1.15.1",
@@ -12,6 +12,7 @@
     "ejs": "~2.4.1",
     "express": "~4.13.4",
     "express-partials": "^0.3.0",
+    "method-override": "^2.3.6",
     "morgan": "~1.7.0",
     "mysql": "^2.11.1",
     "sequelize": "^3.24.6",
