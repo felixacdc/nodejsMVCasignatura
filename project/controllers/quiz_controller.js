@@ -65,3 +65,10 @@ exports.create = function (req, res) {
        }
     });
 };
+
+// GET quizes/:id/edit
+exports.edit = function(req, res) {
+    var quiz = req.quiz; // autoload
+
+    res.render('quizes/edit', { quiz, errors: [] });
+};
