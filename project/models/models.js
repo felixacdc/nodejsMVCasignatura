@@ -37,6 +37,12 @@ exports.Comment = Comment;
 Quiz.sync().then(function() {
     // success(..) ejecuta el manejador una vez creada la tabla
     Quiz.count().then(function(count) {
+        Comment.sync().then(function() {
+            console.log(`Tabla comments creada`);
+        }).catch(function(err) {
+            console.log(`Error: ${err}`);
+        });
+        
         if(count === 0) {
             Quiz.create({
                 pregunta: 'Capital de Italia',

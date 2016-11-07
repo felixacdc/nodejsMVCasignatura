@@ -3,7 +3,7 @@ module.exports = function(sequelize, DataType) {
         texto: {
             type: DataType.STRING,
             validate: {
-                noEmpty: {msg: "-> Falta comentario"}
+                notEmpty: {msg: "-> Falta comentario"}
             }
         }
     });
