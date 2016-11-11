@@ -1,5 +1,23 @@
 let models = require('../models/models.js');
 
+// Autoload :id de comentarios
+exports.load = function(req, res, next, commentId) {
+    models.Comment.find({
+        where: {
+            id: Number(commentId)
+        }
+    }).then(function(comment) {
+        if(comment) {
+            req.comment = comment;
+            next();
+        } else {
+            next(new Error('No existe commentId=' + commentId));
+        }
+    }).catch(function(error) {
+        next(error);
+    })
+};
+
 // GET /quizes/quizId
 exports.new = function(req, res) {
     res.render('comments/new.ejs', { quizid: req.params.quizId, errors: [] });
@@ -23,5 +41,16 @@ exports.create = function(req, res) {
         }
     }).catch(function(err) {
         console.log('Error: ' + err);
+    });
+};
+
+// GET /quizes/:quizId/comments/:commentId/publish
+exports.publish = function(req, res) {
+    req.comment.publicar = true;
+    
+    req.comment.save({fields: ['publicar']}).then(function() {
+        res.redirect('/quizes/' + req.params.quizId);
+    }).catch(function(error) {
+        next(error);
     });
 };
