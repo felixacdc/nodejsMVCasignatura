@@ -6,13 +6,19 @@
 
 var app = require('../app');
 var debug = require('debug')('project:server');
+var fs = require('fs');
+var https = require('https');
 var http = require('http');
 
+var options = {
+    key: fs.readFileSync('cert/quiz-2016-key.pem').toString(),
+    cert: fs.readFileSync('cert/quiz-2016-cert.pem').toString()
+};
 /**
  * Get port from environment and store in Express.
  */
 
-var port = normalizePort(process.env.PORT || '3500');
+var port = normalizePort(process.env.PORT || '3000');
 app.set('port', port);
 
 /**
@@ -20,6 +26,11 @@ app.set('port', port);
  */
 
 var server = http.createServer(app);
+
+var serverSecure = https.createServer(options, app);
+serverSecure.listen(8443, function(){
+    debug('Express server listening on port ' + server.address().port);
+});
 
 /**
  * Listen on provided port, on all network interfaces.
